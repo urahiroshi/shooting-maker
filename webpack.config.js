@@ -3,11 +3,11 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/main.ts',
+    entry: './src/index.tsx',
     mode: 'development',
     output: {
         path: path.resolve(__dirname, 'public'),
-        filename: 'main.js',
+        filename: 'index.js',
         // publicPath: '/dist_client',
     },
 
