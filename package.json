@@ -1,0 +1,24 @@
+{
+  "name": "@urahiroshi/shooting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/main.js",
+  "scripts": {
+    "dev": "NODE_ENV=development webpack --watch & live-server --open=public --port=8080 --watch=src,public",
+    "build": "NODE_ENV=production webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "html-webpack-plugin": "^4.5.2",
+    "phaser": "^3.50.0",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.4",
+    "live-server": "^1.2.1",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.2"
+  }
+}
