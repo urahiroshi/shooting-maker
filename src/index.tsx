@@ -1,23 +1,26 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { css } from '@emotion/react';
 import * as Game from './game';
+import { Config } from './config';
 
 const TopPage: React.FC = () => {
   React.useEffect(() => {
-    Game.load(800, 600, document.querySelector('.game'));
+    Game.load(800, 600, document.getElementById('game'));
   }, []);
 
-  return <>
+  return (
     <div
-      className="game"
       css={{
-        width: 800,
-        height: 600,
+        display: 'grid',
+        gridTemplateColumns: '800px 400px',
+        gridColumnGap: '20px',
+        height: 600, 
       }}
-    />
-    <div className="config" />
-  </>;
+    >
+      <div id="game" />
+      <Config />
+    </div>
+  );
 };
 
 ReactDOM.render(<TopPage />, document.body);
