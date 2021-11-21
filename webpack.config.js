@@ -2,11 +2,13 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
+const destDir = path.resolve(__dirname, 'public');
+
 module.exports = {
     entry: './src/index.tsx',
     mode: 'development',
     output: {
-        path: path.resolve(__dirname, 'public'),
+        path: destDir,
         filename: 'index.js',
         // publicPath: '/dist_client',
     },
@@ -29,4 +31,12 @@ module.exports = {
         new HtmlWebPackPlugin(),
         new webpack.NamedModulesPlugin(),
     ],
+
+    devServer: {
+        static: {
+            directory: destDir,
+            watch: true,
+        },
+        open: true,
+    }
 };

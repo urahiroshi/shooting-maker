@@ -1,10 +1,10 @@
 {
-  "name": "@urahiroshi/shooting",
+  "name": "@urahiroshi/shooting-maker",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/main.js",
   "scripts": {
-    "dev": "NODE_ENV=development webpack --watch & live-server --open=public --port=8080 --watch=src,public",
+    "dev": "webpack serve --mode=development",
     "build": "NODE_ENV=production webpack"
   },
   "author": "",
@@ -19,10 +19,11 @@
     "react-dom": "^17.0.2",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.2",
-    "webpack": "^4.35.2",
-    "webpack-cli": "^3.3.5"
+    "webpack": "^4.35.2"
   },
   "devDependencies": {
-    "live-server": "^1.2.1"
+    "@webpack-cli/serve": "^1.6.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.5.0"
   }
 }
