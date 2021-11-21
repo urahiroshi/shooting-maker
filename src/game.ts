@@ -3,12 +3,13 @@ import { Level1 } from "./level1";
 import { Level2 } from "./level2";
 import { GameOver } from "./game-over";
 
-class Main extends Phaser.Game {
-  constructor() {
+class Game extends Phaser.Game {
+  constructor(width: number, height: number, parent: HTMLElement) {
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.WEBGL,
-      width: 800,
-      height: 600,
+      width,
+      height,
+      parent,
       backgroundColor: '#222',
       physics: {
         default: 'arcade',
@@ -31,6 +32,6 @@ class Main extends Phaser.Game {
   }
 }
 
-window.onload = () => {
-  const GameApp: Phaser.Game = new Main();
+export const load = (width: number, height: number, parent: HTMLElement) => {
+  new Game(width, height, parent);
 };
