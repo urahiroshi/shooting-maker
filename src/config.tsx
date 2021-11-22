@@ -2,37 +2,34 @@ import * as React from 'react';
 import { Game } from './game';
 
 interface Props {
-  onClickPlay: (initializeMethod: string, loopMethod: string) => void;
+  onClickPlay: (userScript: string) => void;
 }
 
+
+const initialUserScript = `
+shot.firework({ x: 200, y: 300 });
+setTimeout(() => {
+  shot.firework({ x: 400, y: 300 });
+}, 3000);
+`;
+
 export const Config: React.FC<Props> = ({ onClickPlay }) => {
-  const [initializeMethod, setInitializeMethod] = React.useState('');
-  const [loopMethod, setLoopMethod] = React.useState('');
+  const [userScript, setUserScript] = React.useState(initialUserScript);
 
   return (
     <div>
-      <div>initialize method:</div>
       <textarea
         css={{
           width: '100%',
-          height: '200px',
+          height: '400px',
         }}
-        value={initializeMethod}
-        onChange={(event) => { setInitializeMethod(event.target.value); }}
-      />
-      <div>loop method:</div>
-      <textarea
-        css={{
-          width: '100%',
-          height: '200px',
-        }}
-        value={loopMethod}
-        onChange={(event) => { setLoopMethod(event.target.value); }}
+        value={userScript}
+        onChange={(event) => { setUserScript(event.target.value); }}
       />
       <div>
         <button
           onClick={() => {
-            onClickPlay(initializeMethod, loopMethod);
+            onClickPlay(userScript);
           }}
         >Play</button>
       </div>

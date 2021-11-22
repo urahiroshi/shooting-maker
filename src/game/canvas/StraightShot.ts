@@ -27,8 +27,9 @@ export class StraightShot implements CanvasObject {
     this._endTime = endTime;
   }
   
-  public update(elapsedTime: number) {
-    if (elapsedTime < this._startTime || elapsedTime > this._endTime) {
+  public update() {
+    const now = Date.now();
+    if (now < this._startTime || now > this._endTime) {
       return;
     }
 
@@ -38,8 +39,8 @@ export class StraightShot implements CanvasObject {
     this._ctx.lineWidth = 5;
     this._ctx.beginPath();
 
-    const x = this._startPos.x + (this._endPos.x - this._startPos.x) * ((elapsedTime - this._startTime) / (this._endTime - this._startTime));
-    const y = this._startPos.y + (this._endPos.y - this._startPos.y) * ((elapsedTime - this._startTime) / (this._endTime - this._startTime));
+    const x = this._startPos.x + (this._endPos.x - this._startPos.x) * ((now - this._startTime) / (this._endTime - this._startTime));
+    const y = this._startPos.y + (this._endPos.y - this._startPos.y) * ((now - this._startTime) / (this._endTime - this._startTime));
 
     this._ctx.moveTo(this._pos.x, this._pos.y);
     this._ctx.lineTo(x, y);

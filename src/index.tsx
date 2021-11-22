@@ -20,9 +20,9 @@ const TopPage: React.FC = () => {
     >
       <div id="game" />
       <Config
-        onClickPlay={(initializeMethod: string, loopMethod: string) => {
-          console.log({ initializeMethod, loopMethod });
-          game.play();
+        onClickPlay={(userScript: string) => {
+          console.log({ userScript });
+          game.play(userScript);
         }}
       />
     </div>

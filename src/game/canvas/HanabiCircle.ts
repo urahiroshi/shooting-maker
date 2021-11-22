@@ -41,16 +41,17 @@ export class HanabiCircle implements CanvasObject {
     }
   }
 
-  public update(elapsedTime: number) {
-    if (elapsedTime < this._startTime || elapsedTime > this._endTime) {
+  public update() {
+    const now = Date.now();
+    if (now < this._startTime || now > this._endTime) {
       return;
     }
 
     const flightTime = 1000;
     const expandTime = this._endTime - this._startTime - flightTime;
-    const currentRadius = (elapsedTime - this._startTime) > expandTime ?
+    const currentRadius = (now - this._startTime) > expandTime ?
       this._radius :
-      this._radius * Math.sin(0.5 * Math.PI * (elapsedTime - this._startTime) / expandTime);
+      this._radius * Math.sin(0.5 * Math.PI * (now - this._startTime) / expandTime);
 
     this._ctx.globalCompositeOperation = 'lighter';
 
@@ -59,7 +60,7 @@ export class HanabiCircle implements CanvasObject {
       this._ctx.lineWidth = shot.size;
       this._ctx.beginPath();
       
-      const angle = shot.angle + Math.sin((elapsedTime * shot.rand) / 2000) * 5;
+      const angle = shot.angle + Math.sin(((now - this._startTime) * shot.rand) / 2000) * 5;
       const x = this._centerPos.x + currentRadius * Math.cos(Math.PI * angle / 180);
       const y = this._centerPos.y + currentRadius * Math.sin(Math.PI * angle / 180);
       

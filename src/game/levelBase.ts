@@ -17,8 +17,7 @@ export class LevelBase extends Phaser.Scene {
   /*
     Please call this method in `init()`
   */
-  protected _init(key: string, clearTime: number) {
-    window.location.hash = key;
+  protected _init(clearTime: number) {
     this.clearTime = clearTime;
     this.cleared = false;
     this.timerEvents = [];

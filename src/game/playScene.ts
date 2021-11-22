@@ -8,9 +8,12 @@ export class PlayScene extends LevelBase {
   private ctx: CanvasRenderingContext2D;
   private canvas: Phaser.Textures.CanvasTexture;
   private objects: CanvasObject[];
+  private userScript: string;
 
-  public init() {
+  public init(data: { userScript: string }) {
+    this._init(30);
     this.objects = [];
+    this.userScript = data.userScript;
   }
 
   public preload() {
@@ -27,44 +30,32 @@ export class PlayScene extends LevelBase {
     this.load.image('shotCanvas');
   }
 
-  private createHanabiShot(color: string, endPos: Position, radius: number, startTime: number) {
+  private createHanabiShot(color: string, endPos: Position, radius: number) {
+    console.log({ color, endPos, radius });
+    const startTime = Date.now();
     this.objects.push(new StraightShot(this.ctx, color, { x: endPos.x, y: 0 }, endPos, startTime, startTime + 3000));
     this.objects.push(new HanabiCircle(this.ctx, color, endPos, radius, startTime + 3000, startTime + 6000));
-  }
-
-  private createHanabiShots() {
-    const colors = ['#0000ee', '#00ee00', '#00eeee', '#ee0000', '#ee00ee', '#eeee00'];
-    const randomColor = () => colors[Math.floor(Math.random() * 6)];
-    const randomPos = () => ({ x: Math.floor(Math.random() * 600) + 100, y: Math.floor(Math.random() * 400) + 100 });
-
-    const { width, height } = this.sys.game.canvas;
-
-    const canvasImage = this.add.image(width / 2, height / 2, 'shotCanvas');
-    canvasImage.depth = -1000;
-    this.createHanabiShot(randomColor(), { x: 400, y: 300 }, 250, 0);
-    this.createHanabiShot(randomColor(), { x: 600, y: 400 }, 300, 3000);
-    this.createHanabiShot(randomColor(), { x: 200, y: 200 }, 200, 4000);
-    this.createHanabiShot(randomColor(), { x: 500, y: 500 }, 250, 5000);
-    this.createHanabiShot(randomColor(), { x: 400, y: 300 }, 250, 6000);
-    this.createHanabiShot(randomColor(), { x: 200, y: 300 }, 250, 7000);
-    this.createHanabiShot(randomColor(), { x: 600, y: 300 }, 250, 8000);
-    this.createHanabiShot(randomColor(), { x: 100, y: 400 }, 250, 10000);
-    this.createHanabiShot(randomColor(), { x: 400, y: 400 }, 250, 10000);
-    this.createHanabiShot(randomColor(), { x: 700, y: 400 }, 250, 10000);
-    for (let i=0; i<5; i++) {
-      this.createHanabiShot(randomColor(), randomPos(), 200, 13000 + i * 1000);
-      this.createHanabiShot(randomColor(), randomPos(), 200, 13000 + i * 1000);
-    }
-    for (let i=0; i<5; i++) {
-      this.createHanabiShot(randomColor(), randomPos(), 250, 18000 + i * 1000);
-      this.createHanabiShot(randomColor(), randomPos(), 250, 18000 + i * 1000);
-    }
   }
 
   public create() {
     this._create();
 
-    this.createHanabiShots();
+    const { width, height } = this.sys.game.canvas;
+    const canvasImage = this.add.image(width / 2, height / 2, 'shotCanvas');
+    canvasImage.depth = -1000;
+
+    const self = this;
+    const shot = {
+      firework: (options: { x: number, y: number }) => {
+        self.createHanabiShot('#eeee00', { x: options.x, y: options.y }, 250);
+      }
+    }
+    const userFunction = new Function('shot', this.userScript);
+    userFunction(shot);
+
+    setTimeout(() => {
+      console.log({ objects: self.objects });
+    }, 5000);
   }
 
   public update() {
@@ -75,8 +66,7 @@ export class PlayScene extends LevelBase {
     const { width, height } = this.sys.game.canvas;
     this.ctx.fillRect(0, 0, width, height);
 
-    const elapsedTime = Date.now() - this.startTime;
-    this.objects.forEach((obj) => { obj.update(elapsedTime); });
+    this.objects.forEach((obj) => { obj.update(); });
 	
     this.canvas.refresh();
 
