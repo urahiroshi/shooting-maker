@@ -18,7 +18,11 @@ export class PlayScene extends LevelBase {
     this.load.image('square', 'square10x.png');
 
     console.warn('preload called!!');
+    if (this.textures.get('shotCanvas')) {
+      this.textures.remove('shotCanvas');
+    }
     this.canvas = this.textures.createCanvas('shotCanvas', 800, 600);
+    
     this.ctx = this.canvas.context;
     this.load.image('shotCanvas');
   }
