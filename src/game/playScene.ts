@@ -1,10 +1,10 @@
 import * as Phaser from "phaser"
-import { LevelBase } from "./levelBase";
+import { SceneBase } from "./SceneBase";
 import { HanabiCircle } from "./canvas/HanabiCircle";
 import { StraightShot } from "./canvas/StraightShot";
 import { CanvasObject } from "./canvas/CanvasObject";
 import { Position } from "./types";
-export class PlayScene extends LevelBase {
+export class PlayScene extends SceneBase {
   private ctx: CanvasRenderingContext2D;
   private canvas: Phaser.Textures.CanvasTexture;
   private objects: CanvasObject[];
@@ -24,7 +24,8 @@ export class PlayScene extends LevelBase {
     if (this.textures.get('shotCanvas')) {
       this.textures.remove('shotCanvas');
     }
-    this.canvas = this.textures.createCanvas('shotCanvas', 800, 600);
+    const { width, height } = this.sys.game.canvas;
+    this.canvas = this.textures.createCanvas('shotCanvas', width, height);
     
     this.ctx = this.canvas.context;
     this.load.image('shotCanvas');

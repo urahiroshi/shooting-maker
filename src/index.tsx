@@ -6,14 +6,14 @@ import { Config } from './config';
 let game: Game;
 const TopPage: React.FC = () => {
   React.useEffect(() => {
-    game = initGame(800, 600, document.getElementById('game'));
+    game = initGame(600, 600, document.getElementById('game'));
   }, []);
 
   return (
     <div
       css={{
         display: 'grid',
-        gridTemplateColumns: '800px 400px',
+        gridTemplateColumns: '600px 400px',
         gridColumnGap: '20px',
         height: 600, 
       }}
@@ -21,7 +21,6 @@ const TopPage: React.FC = () => {
       <div id="game" />
       <Config
         onClickPlay={(userScript: string) => {
-          console.log({ userScript });
           game.play(userScript);
         }}
       />
