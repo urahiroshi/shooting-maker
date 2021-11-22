@@ -1,6 +1,6 @@
 import * as Phaser from "phaser";
-import { PlayScene } from "./playScene";
-import { GameOver } from "./game-over";
+import { PlayScene } from "./PlayScene";
+import { GameOver } from "./GameOver";
 
 export class Game extends Phaser.Game {
   constructor(width: number, height: number, parent: HTMLElement) {

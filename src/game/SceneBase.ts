@@ -1,6 +1,6 @@
 import * as Phaser from "phaser"
 
-export class LevelBase extends Phaser.Scene {
+export class SceneBase extends Phaser.Scene {
   protected player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   protected cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
   protected timerText: Phaser.GameObjects.Text;
