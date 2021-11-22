@@ -36,14 +36,10 @@ export class LevelBase extends Phaser.Scene {
     this.startTime = Date.now();
   }
 
-  protected showLevelText(text: string) {
-    this.add.text(10, 10, text, { fontFamily: 'sans-serif', fontSize: '16px' });
-  }
-
   /*
     Please call this method in `create()`
   */
-  protected _create(levelText: string) {
+  protected _create() {
     const { width, height } = this.sys.game.canvas;
 
     this.player = this.physics.add.sprite(width * 0.5, height - 5, 'square');
@@ -52,7 +48,6 @@ export class LevelBase extends Phaser.Scene {
     this.cursorKeys = this.input.keyboard.createCursorKeys();
 
     this.createTimer(width);
-    this.showLevelText(levelText);
   }
 
   private updateTimer() {

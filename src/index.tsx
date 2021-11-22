@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import * as Game from './game';
+import { initGame, Game } from './game';
 import { Config } from './config';
 
+let game: Game;
 const TopPage: React.FC = () => {
   React.useEffect(() => {
-    Game.load(800, 600, document.getElementById('game'));
+    game = initGame(800, 600, document.getElementById('game'));
   }, []);
 
   return (
@@ -18,7 +19,12 @@ const TopPage: React.FC = () => {
       }}
     >
       <div id="game" />
-      <Config />
+      <Config
+        onClickPlay={(initializeMethod: string, loopMethod: string) => {
+          console.log({ initializeMethod, loopMethod });
+          game.play();
+        }}
+      />
     </div>
   );
 };

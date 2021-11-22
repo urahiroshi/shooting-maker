@@ -1,6 +1,11 @@
 import * as React from 'react';
+import { Game } from './game';
 
-export const Config: React.FC = () => {
+interface Props {
+  onClickPlay: (initializeMethod: string, loopMethod: string) => void;
+}
+
+export const Config: React.FC<Props> = ({ onClickPlay }) => {
   const [initializeMethod, setInitializeMethod] = React.useState('');
   const [loopMethod, setLoopMethod] = React.useState('');
 
@@ -26,7 +31,9 @@ export const Config: React.FC = () => {
       />
       <div>
         <button
-          onClick={() => { console.log({ initializeMethod, loopMethod }); }}
+          onClick={() => {
+            onClickPlay(initializeMethod, loopMethod);
+          }}
         >Play</button>
       </div>
     </div>

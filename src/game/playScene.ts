@@ -4,17 +4,12 @@ import { HanabiCircle } from "./canvas/HanabiCircle";
 import { StraightShot } from "./canvas/StraightShot";
 import { CanvasObject } from "./canvas/CanvasObject";
 import { Position } from "./types";
-export class Level2 extends LevelBase {
-  static KEY = 'level2';
-  
-  private balls: Phaser.Physics.Arcade.Group;
-  private rectangle: Phaser.Geom.Rectangle;
+export class PlayScene extends LevelBase {
   private ctx: CanvasRenderingContext2D;
   private canvas: Phaser.Textures.CanvasTexture;
   private objects: CanvasObject[];
 
   public init() {
-    this._init(Level2.KEY, 30);
     this.objects = [];
   }
 
@@ -22,9 +17,10 @@ export class Level2 extends LevelBase {
     this._preload();
     this.load.image('square', 'square10x.png');
 
-    this.canvas = this.textures.createCanvas('shot', 800, 600);
+    console.warn('preload called!!');
+    this.canvas = this.textures.createCanvas('shotCanvas', 800, 600);
     this.ctx = this.canvas.context;
-    this.load.image('shot');
+    this.load.image('shotCanvas');
   }
 
   private createHanabiShot(color: string, endPos: Position, radius: number, startTime: number) {
@@ -39,7 +35,7 @@ export class Level2 extends LevelBase {
 
     const { width, height } = this.sys.game.canvas;
 
-    const canvasImage = this.add.image(width / 2, height / 2, 'shot');
+    const canvasImage = this.add.image(width / 2, height / 2, 'shotCanvas');
     canvasImage.depth = -1000;
     this.createHanabiShot(randomColor(), { x: 400, y: 300 }, 250, 0);
     this.createHanabiShot(randomColor(), { x: 600, y: 400 }, 300, 3000);
@@ -62,14 +58,9 @@ export class Level2 extends LevelBase {
   }
 
   public create() {
-    this._create('Level 2');
-    const { width } = this.sys.game.canvas;
-    this.rectangle = new Phaser.Geom.Rectangle(0, 0, width, 0);
+    this._create();
 
     this.createHanabiShots();
-
-    // it should be called after addEvent
-    this.physics.add.collider(this.player, this.balls, this.gameOver.bind(this));
   }
 
   public update() {
