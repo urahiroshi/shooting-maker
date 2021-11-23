@@ -36,8 +36,14 @@ export const Config: React.FC<Props> = ({ onClickPlay }) => {
           }}
         />
       </div>
-      <div>
+      <div
+        css={{ marginTop: '8px' }}
+      >
         <button
+          css={{
+            fontSize: '1em',
+            padding: '8px 20px',
+          }}
           onClick={() => {
             onClickPlay(userScript);
           }}
