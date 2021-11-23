@@ -1,31 +1,41 @@
 import * as React from 'react';
-import { Game } from './game';
+import MonacoEditor from 'react-monaco-editor';
 
 interface Props {
   onClickPlay: (userScript: string) => void;
 }
 
 
-const initialUserScript = `
-shot.firework({ x: 200, y: 300 });
+const initialUserScript = (
+`shot.firework({ x: 200, y: 300 });
 setTimeout(() => {
   shot.firework({ x: 400, y: 300 });
 }, 3000);
-`;
+`);
 
 export const Config: React.FC<Props> = ({ onClickPlay }) => {
   const [userScript, setUserScript] = React.useState(initialUserScript);
 
   return (
     <div>
-      <textarea
+      <div
         css={{
-          width: '100%',
-          height: '400px',
+          border: '1px solid grey',
         }}
-        value={userScript}
-        onChange={(event) => { setUserScript(event.target.value); }}
-      />
+      >
+        <MonacoEditor
+          height="400"
+          language="javascript"
+          theme="vs"
+          defaultValue={userScript}
+          onChange={(value) => { setUserScript(value); }}
+          options={{
+            minimap: {
+              enabled: false,
+            },
+          }}
+        />
+      </div>
       <div>
         <button
           onClick={() => {

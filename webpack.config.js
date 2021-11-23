@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const MonacoEditorWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 const destDir = path.resolve(__dirname, 'public');
 
@@ -24,12 +25,19 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'ts-loader'
             },
+            {
+                test: /\.css$/i,
+                include: path.resolve(__dirname, './node_modules/monaco-editor'),
+                use: ["style-loader", "css-loader"],
+            }
         ],
     },
 
     plugins: [
         new HtmlWebPackPlugin(),
-        new webpack.NamedModulesPlugin(),
+        new MonacoEditorWebpackPlugin({
+            languages: ['javascript'],
+        }),
     ],
 
     devServer: {
