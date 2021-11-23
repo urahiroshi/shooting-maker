@@ -20,8 +20,8 @@ export class Game extends Phaser.Game {
     this.scene.add('play', PlayScene, false);
   }
 
-  public play(userScript: string) {
-    this.scene.start('play', { userScript });
+  public play(userScript: string, onUserScriptError: (error: Error) => void) {
+    this.scene.start('play', { userScript, onUserScriptError });
   }
 }
 

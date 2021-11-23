@@ -2,7 +2,7 @@ import * as React from 'react';
 import MonacoEditor from 'react-monaco-editor';
 
 interface Props {
-  onClickPlay: (userScript: string) => void;
+  onClickPlay: (userScript: string, onUserScriptError: (error: Error) => void) => void;
 }
 
 
@@ -15,6 +15,10 @@ setTimeout(() => {
 
 export const Config: React.FC<Props> = ({ onClickPlay }) => {
   const [userScript, setUserScript] = React.useState(initialUserScript);
+  const [userScriptError, setUserScriptError] = React.useState('');
+  const onUserScriptError = (error: Error) => {
+    setUserScriptError(error.message);
+  };
 
   return (
     <div>
@@ -37,7 +41,7 @@ export const Config: React.FC<Props> = ({ onClickPlay }) => {
         />
       </div>
       <div
-        css={{ marginTop: '8px' }}
+        css={{ margin: '8px 0px' }}
       >
         <button
           css={{
@@ -45,9 +49,14 @@ export const Config: React.FC<Props> = ({ onClickPlay }) => {
             padding: '8px 20px',
           }}
           onClick={() => {
-            onClickPlay(userScript);
+            onClickPlay(userScript, onUserScriptError);
           }}
         >Play</button>
+      </div>
+      <div
+        css={{ color: '#ff0000' }}
+      >
+        {userScriptError}
       </div>
     </div>
   );

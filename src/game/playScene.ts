@@ -9,18 +9,19 @@ export class PlayScene extends SceneBase {
   private canvas: Phaser.Textures.CanvasTexture;
   private objects: CanvasObject[];
   private userScript: string;
+  private onUserScriptError: (error: Error) => void;
 
-  public init(data: { userScript: string }) {
+  public init(data: { userScript: string, onUserScriptError: (error: Error) => void }) {
     this._init(30);
     this.objects = [];
     this.userScript = data.userScript;
+    this.onUserScriptError = data.onUserScriptError;
   }
 
   public preload() {
     this._preload();
     this.load.image('square', 'square10x.png');
 
-    console.warn('preload called!!');
     if (this.textures.get('shotCanvas')) {
       this.textures.remove('shotCanvas');
     }
@@ -32,7 +33,6 @@ export class PlayScene extends SceneBase {
   }
 
   private createHanabiShot(color: string, endPos: Position, radius: number) {
-    console.log({ color, endPos, radius });
     const startTime = Date.now();
     this.objects.push(new StraightShot(this.ctx, color, { x: endPos.x, y: 0 }, endPos, startTime, startTime + 3000));
     this.objects.push(new HanabiCircle(this.ctx, color, endPos, radius, startTime + 3000, startTime + 6000));
@@ -52,11 +52,12 @@ export class PlayScene extends SceneBase {
       }
     }
     const userFunction = new Function('shot', this.userScript);
-    userFunction(shot);
-
-    setTimeout(() => {
-      console.log({ objects: self.objects });
-    }, 5000);
+    try {
+      userFunction(shot);
+    } catch (err) {
+      this.onUserScriptError(err);
+      throw err;
+    }
   }
 
   public update() {

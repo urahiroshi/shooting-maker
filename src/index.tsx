@@ -20,8 +20,8 @@ const TopPage: React.FC = () => {
     >
       <div id="game" />
       <Config
-        onClickPlay={(userScript: string) => {
-          game.play(userScript);
+        onClickPlay={(userScript: string, onUserScriptError: (error: Error) => void) => {
+          game.play(userScript, onUserScriptError);
         }}
       />
     </div>
