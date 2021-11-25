@@ -38,19 +38,13 @@ export class PlayScene extends SceneBase {
     this.objects.push(new HanabiCircle(this.ctx, color, endPos, radius, startTime + 3000, startTime + 6000));
   }
 
-  public create() {
-    this._create();
-
-    const { width, height } = this.sys.game.canvas;
-    const canvasImage = this.add.image(width / 2, height / 2, 'shotCanvas');
-    canvasImage.depth = -1000;
-
+  private executeUserScript() {
     const self = this;
     const shot = {
       firework: (options: { x: number, y: number }) => {
         self.createHanabiShot('#eeee00', { x: options.x, y: options.y }, 250);
       }
-    }
+    };
     const userFunction = new Function('shot', this.userScript);
     try {
       userFunction(shot);
@@ -58,6 +52,16 @@ export class PlayScene extends SceneBase {
       this.onUserScriptError(err);
       this.scene.stop();
     }
+  }
+
+  public create() {
+    this._create();
+
+    const { width, height } = this.sys.game.canvas;
+    const canvasImage = this.add.image(width / 2, height / 2, 'shotCanvas');
+    canvasImage.depth = -1000;
+
+    this.executeUserScript();
   }
 
   public update() {
