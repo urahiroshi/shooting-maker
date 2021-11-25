@@ -57,7 +57,7 @@ export class SceneBase extends Phaser.Scene {
     return remainingTime;
   }
 
-  protected clear(hasNextLevel: boolean) {
+  protected clear() {
     this.cleared = true;
     this.timerEvents.forEach((timerEvent) => {
       timerEvent.destroy();
@@ -65,20 +65,13 @@ export class SceneBase extends Phaser.Scene {
     this.physics.pause();
     const { height } = this.sys.game.canvas;
     this.add.text(10, height / 2 - 24, 'CLEAR!!', { fontFamily: 'sans-serif', fontSize: '48px' });
-    if (hasNextLevel) {
-      this.add.text(10, (height / 2) + 24, 'Please click space key to move next stage', { fontFamily: 'sans-serif', fontSize: '24px' });
-      this.spaceKey = this.input.keyboard.addKey('SPACE');
-    }
   }
 
   /*
     Please call this method in `update()`
   */
-  protected _update(nextLevel?: string) {
+  protected _update() {
     if (this.cleared) {
-      if (this.spaceKey.isDown && nextLevel) { 
-        this.scene.start(nextLevel);
-      }
       return;
     }
 
@@ -95,7 +88,7 @@ export class SceneBase extends Phaser.Scene {
 
     const remainingTime = this.updateTimer();
     if (remainingTime <= 0) {
-      this.clear(!!nextLevel);
+      this.clear();
     }
   }
 }

@@ -49,6 +49,7 @@ export const Config: React.FC<Props> = ({ onClickPlay }) => {
             padding: '8px 20px',
           }}
           onClick={() => {
+            setUserScriptError('');
             onClickPlay(userScript, onUserScriptError);
           }}
         >Play</button>

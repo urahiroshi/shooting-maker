@@ -56,7 +56,7 @@ export class PlayScene extends SceneBase {
       userFunction(shot);
     } catch (err) {
       this.onUserScriptError(err);
-      throw err;
+      this.scene.stop();
     }
   }
 
