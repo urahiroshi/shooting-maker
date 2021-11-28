@@ -3,7 +3,8 @@ import { SceneBase } from "./SceneBase";
 import { HanabiCircle } from "./canvas/HanabiCircle";
 import { StraightShot } from "./canvas/StraightShot";
 import { CanvasObject } from "./canvas/CanvasObject";
-import { Position } from "./types";
+import { Position, Speed } from "./types";
+import { CircleShot } from "./canvas/CircleShot";
 export class PlayScene extends SceneBase {
   private ctx: CanvasRenderingContext2D;
   private canvas: Phaser.Textures.CanvasTexture;
@@ -38,12 +39,19 @@ export class PlayScene extends SceneBase {
     this.objects.push(new HanabiCircle(this.ctx, color, endPos, radius, startTime + 3000, startTime + 6000));
   }
 
+  private createCircleShot(startX: number, radius: number, speed: Speed) {
+    this.objects.push(new CircleShot(this.ctx, '#e6eeef', radius, { x: startX, y: 0 }, speed, Date.now()));
+  }
+
   private executeUserScript() {
     const self = this;
     const shot = {
+      bullet: (options: { startX: number, radius: number, speedX: number, speedY: number }) => {
+        self.createCircleShot(options.startX, options.radius, { x: options.speedX, y: options.speedY });
+      },
       firework: (options: { x: number, y: number }) => {
         self.createHanabiShot('#eeee00', { x: options.x, y: options.y }, 250);
-      }
+      },
     };
     const userFunction = new Function('shot', this.userScript);
     try {
@@ -72,7 +80,9 @@ export class PlayScene extends SceneBase {
     const { width, height } = this.sys.game.canvas;
     this.ctx.fillRect(0, 0, width, height);
 
-    this.objects.forEach((obj) => { obj.update(); });
+    const canvas = this.sys.game.canvas;
+    const validObjects = this.objects.filter(obj =>  obj.update({ canvas }));
+    this.objects = validObjects;
 	
     this.canvas.refresh();
 

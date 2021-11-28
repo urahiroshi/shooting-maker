@@ -27,10 +27,12 @@ export class StraightShot implements CanvasObject {
     this._endTime = endTime;
   }
   
-  public update() {
+  public update(): boolean {
     const now = Date.now();
-    if (now < this._startTime || now > this._endTime) {
-      return;
+    if (now < this._startTime) {
+      return true;
+    } else if (now > this._endTime) {
+      return false;
     }
 
     this._ctx.globalCompositeOperation = 'lighter';
@@ -47,5 +49,6 @@ export class StraightShot implements CanvasObject {
     this._pos = { x, y };
     
     this._ctx.stroke();
+    return true;
   }
 }

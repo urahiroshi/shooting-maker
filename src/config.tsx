@@ -7,7 +7,8 @@ interface Props {
 
 
 const initialUserScript = (
-`shot.firework({ x: 200, y: 300 });
+`shot.bullet({ startX: 300, radius: 8, speedX: 0, speedY: 200 });
+shot.firework({ x: 200, y: 300 });
 setTimeout(() => {
   shot.firework({ x: 400, y: 300 });
 }, 3000);

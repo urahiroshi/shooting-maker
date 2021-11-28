@@ -1,5 +1,5 @@
 import { Position } from '../types';
-import { CanvasObject } from './CanvasObject';
+import { CanvasObject, UpdateOption } from './CanvasObject';
 
 export class HanabiCircle implements CanvasObject {
   private _ctx: CanvasRenderingContext2D;
@@ -41,10 +41,12 @@ export class HanabiCircle implements CanvasObject {
     }
   }
 
-  public update() {
+  public update(_updateOption: UpdateOption): boolean {
     const now = Date.now();
-    if (now < this._startTime || now > this._endTime) {
-      return;
+    if (now < this._startTime) {
+      return true;
+    } else if (now > this._endTime) {
+      return false;
     }
 
     const flightTime = 1000;
@@ -70,6 +72,8 @@ export class HanabiCircle implements CanvasObject {
       shot.lastPos = { x, y };
       this._ctx.stroke();
     }
+
+    return true;
   }
 
 

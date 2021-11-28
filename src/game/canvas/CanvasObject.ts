@@ -1,3 +1,7 @@
+export interface UpdateOption {
+  canvas: { width: number, height: number };
+}
+
 export interface CanvasObject {
-  update(): void;
+  update(updateOption: UpdateOption): boolean;
 }
